@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Norwegian Gem · Packing List</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --surface: rgba(255,255,255,0.04);
+      --border: rgba(255,255,255,0.08);
+      --text: #e8eaf0;
+      --muted: #5a6378;
+      --subtle: #3a4056;
+      --workout: #00C9A7;
+      --dress: #FFD166;
+      --casual: #74B9FF;
+      --swim: #A29BFE;
+      --gem: #FD79A8;
+      --health: #55EFC4;
+      --docs: #FDCB6E;
+    }
+
+```
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(0,100,180,0.12) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 80%, rgba(100,0,160,0.1) 0%, transparent 50%);
+  font-family: 'DM Sans', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 32px 16px 80px;
+}
+
+/* HEADER */
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+  animation: fadeDown 0.6s ease both;
+}
+.header .anchor { font-size: 48px; display: block; margin-bottom: 8px; }
+.header h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(26px, 6vw, 42px);
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  color: #fff;
+  text-transform: uppercase;
+}
+.header .subtitle {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+}
+
+/* PROGRESS */
+.progress-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 20px 28px;
+  max-width: 340px;
+  margin: 24px auto 0;
+  backdrop-filter: blur(8px);
+}
+.progress-nums {
+  font-size: 36px;
+  font-weight: 700;
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+}
+.progress-nums span { font-size: 16px; color: var(--muted); font-family: 'DM Sans', sans-serif; }
+.progress-label {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+.progress-bar-bg {
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  height: 8px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #00C9A7, #74B9FF, #A29BFE);
+  border-radius: 999px;
+  transition: width 0.45s cubic-bezier(.4,0,.2,1);
+  width: 0%;
+}
+.progress-pct {
+  font-size: 12px;
+  color: #74B9FF;
+  margin-top: 7px;
+  font-weight: 500;
+}
+
+/* CATEGORIES */
+.categories { max-width: 640px; margin: 32px auto 0; }
+
+.category {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+  animation: fadeUp 0.5s ease both;
+}
+.category.all-done { border-color: rgba(0,201,167,0.25); background: rgba(0,201,167,0.04); }
+
+.cat-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  cursor: pointer;
+  user-select: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.cat-header.open { border-bottom-color: var(--border); }
+
+.cat-left { display: flex; align-items: center; gap: 12px; }
+.cat-emoji { font-size: 24px; flex-shrink: 0; }
+.cat-name { font-weight: 600; font-size: 15px; color: #fff; }
+.cat-note { font-size: 11px; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+
+.cat-right { display: flex; align-items: center; gap: 10px; }
+.cat-badge {
+  border-radius: 999px;
+  padding: 3px 11px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid;
+  white-space: nowrap;
+}
+.cat-chevron { color: var(--subtle); font-size: 11px; transition: transform 0.25s; }
+.cat-chevron.open { transform: rotate(180deg); }
+
+/* ITEMS */
+.cat-body { padding: 8px 20px 16px; }
+
+.bulk-btns { display: flex; gap: 8px; margin: 8px 0 12px; }
+.bulk-btn {
+  border-radius: 8px;
+  padding: 4px 13px;
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  border: 1px solid;
+  transition: opacity 0.15s;
+}
+.bulk-btn:hover { opacity: 0.75; }
+.bulk-btn.clear {
+  background: rgba(255,255,255,0.04);
+  border-color: rgba(255,255,255,0.1);
+  color: var(--muted);
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 4px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.item:last-child { border-bottom: none; }
+.item.packed { opacity: 0.4; }
+
+.checkbox {
+  width: 21px; height: 21px;
+  border-radius: 6px;
+  border: 2px solid rgba(255,255,255,0.2);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.checkbox.checked { border-color: transparent; }
+.checkbox .check { color: #fff; font-size: 12px; font-weight: 700; display: none; }
+.checkbox.checked .check { display: block; }
+
+.item-name {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text);
+  transition: color 0.2s;
+}
+.item.packed .item-name { text-decoration: line-through; color: var(--muted); }
+
+.item-qty {
+  font-size: 11px;
+  color: var(--muted);
+  background: rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  margin-top: 28px;
+  color: var(--subtle);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(-16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+```
+
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <span class="anchor">⚓</span>
+  <h1>Norwegian Gem</h1>
+  <div class="subtitle">5-Night Cruise · Packing Checklist</div>
+
+  <div class="progress-card">
+    <div class="progress-nums" id="packed-count">0<span id="total-count">/0</span></div>
+    <div class="progress-label">Items Packed</div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill" id="progress-fill"></div></div>
+    <div class="progress-pct" id="progress-pct">0% ready to sail</div>
+  </div>
+</div>
+
+<div class="categories" id="categories"></div>
+
+<div class="footer">Tap any item to mark it packed · Bon Voyage! 🌊</div>
+
+<script>
+const data = [
+  {
+    id: "workout", emoji: "🏋️", color: "#00C9A7",
+    name: "Workout Outfits",
+    note: "One per morning — Pulse Fitness Center 6–7am beats the crowds",
+    items: [
+      { name: "Moisture-wicking shirts", qty: 5 },
+      { name: "Athletic shorts", qty: 5 },
+      { name: "Running shoes", qty: 1 },
+      { name: "Running socks", qty: 5 },
+      { name: "Sports bra", qty: 5 },
+      { name: "Gym Hat", qty: 1 },
+    ]
+  },
+  {
+    id: "dress", emoji: "✨", color: "#FFD166",
+    name: "Dress Outfits",
+    note: "NCL Freestyle — no dress code, but Cagney's Steakhouse appreciates smart casual",
+    items: [
+      { name: "Dress outfit #1 (Button up + Nice Pants)", qty: 1 },
+      { name: "Dress outfit #2 (Button up)", qty: 1 },
+      { name: "Dress shoes", qty: 1 },
+    ]
+  },
+  {
+    id: "casual", emoji: "👕", color: "#74B9FF",
+    name: "Casual Daily Wear",
+    note: "One set per day — port stops, buffet, O'Sheehan's, and deck time",
+    items: [
+      { name: "Casual t-shirts", qty: 5 },
+      { name: "Shorts", qty: 5 },
+      { name: "Casual sneakers", qty: 1 },
+      { name: "Flip flops / sandals", qty: 1 },
+      { name: "Light hoodie or layer", qty: 1 },
+      { name: "Sunglasses", qty: 1 },
+      { name: "Hat", qty: 1 },
+    ]
+  },
+  {
+    id: "swim", emoji: "🏊", color: "#A29BFE",
+    name: "Swim Outfits",
+    note: "Two sets so one dries while you wear the other",
+    items: [
+      { name: "Swimsuit / trunks #1", qty: 1 },
+      { name: "Swimsuit / trunks #2", qty: 1 },
+      { name: "Water sandals", qty: 1 },
+    ]
+  },
+  {
+    id: "gem", emoji: "⚓", color: "#FD79A8",
+    name: "NCL Gem Essentials",
+    note: "Ship-specific must-haves for the Norwegian Gem",
+    items: [
+      { name: "Magnetic hooks (cabin walls are metal)", qty: 4 },
+      { name: "Power strip — NO surge protector", qty: 1 },
+      { name: "Liquid IV hydration packets", qty: 10 },
+      { name: "Airpods", qty: 1 },
+      { name: "Loops", qty: 1 },
+    ]
+  },
+  {
+    id: "health", emoji: "🧴", color: "#55EFC4",
+    name: "Toiletries & Health",
+    note: "Don't forget reef-safe sunscreen for port days",
+    items: [
+      { name: "Reef-safe SPF 50 sunscreen", qty: 1 },
+      { name: "After-sun lotion / aloe", qty: 1 },
+      { name: "Shampoo / conditioner", qty: 1 },
+      { name: "Body wash", qty: 1 },
+      { name: "Deodorant", qty: 1 },
+      { name: "Razor", qty: 1 },
+      { name: "Toothbrush + toothpaste", qty: 1 },
+      { name: "Daily medications + as-needed meds", qty: 1 },
+      { name: "As-needed meds", qty: 1 },
+      { name: "Lip balm with SPF", qty: 1 },
+    ]
+  },
+  {
+    id: "docs", emoji: "📋", color: "#FDCB6E",
+    name: "Documents & Valuables",
+    note: "Keep in carry-on — never in checked luggage",
+    items: [
+      { name: "Passport", qty: 1 },
+      { name: "NCL booking confirmation", qty: 1 },
+      { name: "Credit card + small cash (USD)", qty: 1 },
+      { name: "Phone + charger", qty: 1 },
+      { name: "Portable battery / power bank", qty: 1 },
+    ]
+  },
+];
+
+// State: packed[categoryId][itemIndex] = bool
+const packed = {};
+data.forEach(cat => {
+  packed[cat.id] = cat.items.map(() => false);
+});
+const collapsed = {};
+
+function getStats() {
+  let total = 0, done = 0;
+  data.forEach(cat => {
+    cat.items.forEach((_, i) => {
+      total++;
+      if (packed[cat.id][i]) done++;
+    });
+  });
+  return { total, done };
+}
+
+function updateProgress() {
+  const { total, done } = getStats();
+  const pct = total ? Math.round((done / total) * 100) : 0;
+  document.getElementById('packed-count').childNodes[0].textContent = done;
+  document.getElementById('total-count').textContent = '/' + total;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  document.getElementById('progress-pct').textContent = pct + '% ready to sail';
+}
+
+function renderCategories() {
+  const container = document.getElementById('categories');
+  container.innerHTML = '';
+
+  data.forEach((cat, ci) => {
+    const allDone = packed[cat.id].every(Boolean);
+    const doneCount = packed[cat.id].filter(Boolean).length;
+    const isOpen = !collapsed[cat.id];
+
+    const card = document.createElement('div');
+    card.className = 'category' + (allDone ? ' all-done' : '');
+    card.style.animationDelay = (ci * 0.07) + 's';
+
+    card.innerHTML = `
+      <div class="cat-header ${isOpen ? 'open' : ''}" data-cat="${cat.id}">
+        <div class="cat-left">
+          <span class="cat-emoji">${cat.emoji}</span>
+          <div>
+            <div class="cat-name">${cat.name}</div>
+            <div class="cat-note">${cat.note}</div>
+          </div>
+        </div>
+        <div class="cat-right">
+          <div class="cat-badge" style="color:${cat.color};border-color:${cat.color}44;background:${cat.color}18">
+            ${doneCount}/${cat.items.length}
+          </div>
+          <div class="cat-chevron ${isOpen ? 'open' : ''}">▼</div>
+        </div>
+      </div>
+      ${isOpen ? `
+      <div class="cat-body">
+        <div class="bulk-btns">
+          <button class="bulk-btn" data-cat="${cat.id}" data-action="check"
+            style="background:${cat.color}18;border-color:${cat.color}44;color:${cat.color}">
+            Check All
+          </button>
+          <button class="bulk-btn clear" data-cat="${cat.id}" data-action="clear">Clear All</button>
+        </div>
+        ${cat.items.map((item, idx) => `
+          <div class="item ${packed[cat.id][idx] ? 'packed' : ''}" data-cat="${cat.id}" data-idx="${idx}">
+            <div class="checkbox ${packed[cat.id][idx] ? 'checked' : ''}"
+              style="${packed[cat.id][idx] ? 'background:'+cat.color : ''}">
+              <span class="check">✓</span>
+            </div>
+            <span class="item-name">${item.name}</span>
+            <span class="item-qty">×${item.qty}</span>
+          </div>
+        `).join('')}
+      </div>` : ''}
+    `;
+
+    container.appendChild(card);
+  });
+
+  // Attach events
+  container.querySelectorAll('.cat-header').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.cat;
+      collapsed[id] = !collapsed[id];
+      renderCategories();
+    });
+  });
+
+  container.querySelectorAll('.bulk-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const id = btn.dataset.cat;
+      const val = btn.dataset.action === 'check';
+      packed[id] = packed[id].map(() => val);
+      renderCategories();
+      updateProgress();
+    });
+  });
+
+  container.querySelectorAll('.item').forEach(el => {
+    el.addEventListener('click', () => {
+      const id = el.dataset.cat;
+      const idx = parseInt(el.dataset.idx);
+      packed[id][idx] = !packed[id][idx];
+      renderCategories();
+      updateProgress();
+    });
+  });
+}
+
+renderCategories();
+updateProgress();
+</script>
+
+</body>
+</html>
