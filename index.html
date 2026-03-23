@@ -1,3 +1,10 @@
+CAUTION EXTERNAL EMAIL 
+This message came from outside your organization.
+DO NOT open attachments or click on links from unknown senders or unexpected emails. 
+    Report Suspicious     
+
+
+
 <!DOCTYPE html>
 
 <html lang="en">
@@ -5,7 +12,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Norwegian Gem · Packing List</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <link href="https://urldefense.com/v3/__https://fonts.googleapis.com/css2?family=Playfair*Display:wght@700;900&family=DM*Sans:wght@300;400;500;600&display=swap__;Kys!!MwwqYLOC6b6whF7V!hPHQVccTuEMTVPYC3Bgrb2mn_H_ODYVtqKL3eIVcgKcnn2h-rNxleA3DByfwuuwb7pkABUaPArmV7dSZCZDBcdgdR3Q1DQ$" rel="stylesheet"/>
   <style>
     :root {
       --bg: #0b0f1a;
@@ -363,9 +370,27 @@ const data = [
 ];
 
 // State: packed[categoryId][itemIndex] = bool
+const STORAGE_KEY = 'ncl-gem-packed';
+
+function loadState() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    return saved ? JSON.parse(saved) : null;
+  } catch(e) { return null; }
+}
+
+function saveState() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(packed));
+  } catch(e) {}
+}
+
+const saved = loadState();
 const packed = {};
 data.forEach(cat => {
-  packed[cat.id] = cat.items.map(() => false);
+  packed[cat.id] = cat.items.map((_, i) =>
+    saved && saved[cat.id] ? (saved[cat.id][i] || false) : false
+  );
 });
 const collapsed = {};
 
@@ -458,6 +483,7 @@ function renderCategories() {
       const id = btn.dataset.cat;
       const val = btn.dataset.action === 'check';
       packed[id] = packed[id].map(() => val);
+      saveState();
       renderCategories();
       updateProgress();
     });
@@ -468,6 +494,7 @@ function renderCategories() {
       const id = el.dataset.cat;
       const idx = parseInt(el.dataset.idx);
       packed[id][idx] = !packed[id][idx];
+      saveState();
       renderCategories();
       updateProgress();
     });
