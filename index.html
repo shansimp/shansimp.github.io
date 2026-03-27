@@ -636,7 +636,7 @@ footer {
         cell.classList.add('marked');
       }
 
-      if (!state.marked[i] && i !== FREE_INDEX) {
+      if (i !== FREE_INDEX) {
         cell.addEventListener('click', () => toggleCell(i));
       }
 
